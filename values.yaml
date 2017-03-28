@@ -1,13 +1,13 @@
 replicas: 1
 cpu:
   requests: "25m"
-  limits: "100m"
+  limits: "1000m"
 memory:
   requests: "64Mi"
-  limits: "2048Mi"
+  limits: "4096Mi"
 serviceType: LoadBalancer
 image:
-  Name: tensorflow/tensorflow
+  Name: lsheiba/tensorflow-jupyter
   Tag: latest
 persistence:
     enabled: true
