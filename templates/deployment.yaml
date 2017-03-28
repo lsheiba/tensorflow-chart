@@ -5,34 +5,34 @@ metadata:
   labels:
     heritage: {{.Release.Service | quote }}
     release: {{.Release.Name | quote }}
-    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
   annotations:
     helm.sh/created: {{.Release.Time.Seconds | quote }}
 spec:
-  replicas: {{default 1 .Values.replicas }}
+  replicas: {{ default 1 .Values.replicas }}
   template:
     metadata:
       labels:
-        heritage: {{.Release.Service | quote }}
-        release: {{.Release.Name | quote }}
-        chart: "{{.Chart.Name}}"
+        heritage: {{ .Release.Service | quote }}
+        release: {{ .Release.Name | quote }}
+        chart: {{ .Chart.Name }}
     spec:
       containers:
       - name: tensorflow
         resources:
           requests:
-            cpu: "{{.Values.cpu.requests}}"
-            memory: "{{.Values.memory.requests}}"
+            cpu: "{{ .Values.cpu.requests }}"
+            memory: "{{ .Values.memory.requests }}"
           limits:
-            cpu: "{{.Values.cpu.limits}}"
-            memory: "{{.Values.memory.limits}}"
-        image: "{{ printf "%s:%s" .Values.image.Name .Values.image.Tag}}"
+            cpu: "{{ .Values.cpu.limits }}"
+            memory: "{{ .Values.memory.limits }}"
+        image: "{{ printf "%s:%s" .Values.image.Name .Values.image.Tag }}"
         ports:
         - containerPort: 8888
           name: http
         volumeMounts:
         - name: notebooks
-          mountPath: /notebooks/{{.Chart.Name}}
+          mountPath: "/notebooks/{{ .Chart.Name }}""
       volumes:
         - name: notebooks
           {{- if .Values.persistence.enabled }}
@@ -40,3 +40,4 @@ spec:
             claimName: "{{ printf "%s-%s" .Release.Name .Chart.Name | trunc 24 }}"
           {{- else }}
           emptyDir: {}
+          {{- end }}
